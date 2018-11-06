@@ -1,31 +1,34 @@
-const path = require("path");
-const webpack = require("webpack");
-
-const isLive = process.env.NODE_ENV === "production";
+const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
-  devtool: isLive ? "source-map" : "cheap-eval-source-map",
-  entry: {
-    demos: path.resolve("examples", "index.js")
-  },
+  entry: path.resolve(__dirname, 'examples/index.js'),
   output: {
-    path: path.join(__dirname, "examples"),
-    filename: "bundle.js"
+    path: path.resolve(__dirname, 'examples/build'),
+    publicPath: 'http://127.0.0.1:8081/examples/build',
+    filename: 'bundle.js',
+  },
+  resolve: {
+    extensions: ['.js', '.jsx'],
   },
   module: {
     loaders: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: "babel-loader"
-      }
-    ]
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015', 'react', 'stage-2'],
+        },
+      },
+    ],
   },
-  devServer: {
-    contentBase: path.join(__dirname, "examples"),
-    publicPath: "/",
-    compress: true,
-    port: 9000,
-    historyApiFallback: true
-  }
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production'),
+      },
+    }),
+    new webpack.optimize.UglifyJsPlugin(),
+  ],
 };
