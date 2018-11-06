@@ -1,3 +1,14 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-export default () => (<div>1</div>);
+
+class TestComponent extends React.Component {
+  render() {
+    return (
+      <div>
+        this is test
+      </div>
+    );
+  }
+}
+
+export default TestComponent;
