@@ -41,7 +41,7 @@
     "start": "next start",
     "clean": "rimraf build",
     "build:es2015": "cross-env NODE_ENV=production babel --config-file .babelrc src --out-dir build --ignore *.test.js",
-    "build:copy-files": "babel-node --config-file .babelrc scripts/copy-files.js",
+    "build:copy-files": "babel-node --config-file ../../babel.config.js ./scripts/copy-files.js",
     "release": "npm run build && npm publish build"
   }
 }
