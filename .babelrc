@@ -1,16 +1,3 @@
 {
-  "presets": ["es2015", "stage-0", "react"],
-  "env": {
-    "production": {
-      "plugins": [
-        [
-          "babel-plugin-webpack-loaders",
-          {
-            "config": "${WEBPACK_CONFIG}",
-            "verbose": true
-          }
-        ]
-      ]
-    }
-  }
+  "presets": ["es2015", "stage-0", "react"]
 }
