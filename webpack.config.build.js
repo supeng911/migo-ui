@@ -1,31 +1,23 @@
 /* eslint-disable no-var */
 var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var nodeExternals = require('webpack-node-externals');
 
 module.exports = {
-  mode: 'production',
-  externals: [nodeExternals()],
+  output: {
+    publicPath: '/',
+    libraryTarget: 'commonjs2', // necessary for the babel plugin
+    path: path.join(__dirname, 'lib-css'), // where to place webpack files
+  },
   module: {
     loaders: [
       {
         test: /\.css$/,
-        use: [
-          'style-loader',
-          { loader: 'css-loader', options: { modules: true, importLoaders: 1 } },
-          'postcss-loader'
-        ]
+        loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader?modules&importLoaders=1&localIdentName=draftJsEmojiPlugin__[local]__[hash:base64:5]!postcss-loader' }),
       },
-      // {
-      //   test: /\.css$/,
-      //   loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader?modules&importLoaders=1&localIdentName=draftJsMentionPlugin__[local]__[hash:base64:5]!postcss-loader' }),
-      // },
     ],
   },
+
   plugins: [
     new ExtractTextPlugin({ filename: `${path.parse(process.argv[2]).name}.css` }),
   ],
-}
-
-
-
+};

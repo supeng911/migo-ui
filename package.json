@@ -48,12 +48,18 @@
   },
   "scripts": {
     "start": "next start",
-    "clean": "rimraf build",
+    "prebuild": "rimraf build",
+    "build:js": "WEBPACK_CONFIG=webpack.config.build.js BABEL_DISABLE_CACHE=1 BABEL_ENV=production NODE_ENV=production babel src --out-dir build --ignore *.test.js",
+
+
+    "build:jsx": "WEBPACK_CONFIG=$(pwd)/webpack.config.js BABEL_DISABLE_CACHE=1 BABEL_ENV=production NODE_ENV=production babel src --out-dir lib",
+
     "build:es2015": "cross-env NODE_ENV=production babel --config-file .babelrc src --out-dir build --ignore *.test.js",
     "build:copy-files": "babel-node scripts/copy-files.js",
-    "build:js": "WEBPACK_CONFIG=webpack.config.build.js BABEL_DISABLE_CACHE=1 BABEL_ENV=production NODE_ENV=production babel src --out-dir build --ignore *.test.js",
+    "build:css": "node scripts/concatCssFiles $(pwd)",
+
     "build": "webpack --config webpack.config.build.js",
-    "test": "npm run clean && npm run build:js",
+    "test": "npm run prebuild && npm run build:jsx",
     "release": "npm run build && npm publish build"
   }
 }
